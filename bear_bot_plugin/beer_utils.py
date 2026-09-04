@@ -63,10 +63,3 @@ def build_price_message():
 
     return f"**🍺 Текущее пиво:** Жигулевское\n**Цена за 1 литр:** {current_price:.2f} руб. {arrow}"
 
-# ======== Ежедневное сообщение ========
-@tasks.loop(time=time(hour=12, minute=0))
-async def daily_message():
-    channel = bot.get_channel(CHANNEL_ID)
-    if channel:
-        await channel.send(build_price_message())
-
