@@ -29,7 +29,7 @@ class Core:
             self.daily_message,
             "cron",
             hour=10,
-            minute=34,
+            minute=0,
             second=0,
         )
         self.scheduler.start()
