@@ -64,21 +64,6 @@ html5lib = ["html5lib"]
 lxml = ["lxml"]
 
 [[package]]
-name = "bs4"
-version = "0.0.2"
-description = "Dummy package for Beautiful Soup (beautifulsoup4)"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "bs4-0.0.2-py2.py3-none-any.whl", hash = "sha256:abf8742c0805ef7f662dce4b51cca104cffe52b835238afc169142ab9b3fbccc"},
-    {file = "bs4-0.0.2.tar.gz", hash = "sha256:a48685c58f50fe127722417bae83fe6badf500d54b55f7e39ffe43b798653925"},
-]
-
-[package.dependencies]
-beautifulsoup4 = "*"
-
-[[package]]
 name = "certifi"
 version = "2026.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -273,20 +258,6 @@ files = [
 ]
 
 [[package]]
-name = "dotenv"
-version = "0.9.9"
-description = "Deprecated package"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "dotenv-0.9.9-py2.py3-none-any.whl", hash = "sha256:29cf74a087b31dafdb5a446b6d7e11cbce8ed2741540e2339c69fbef92c94ce9"},
-]
-
-[package.dependencies]
-python-dotenv = "*"
-
-[[package]]
 name = "idna"
 version = "3.19"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -320,22 +291,23 @@ nkeys = ["nkeys"]
 
 [[package]]
 name = "potehinsonnet"
-version = "0.1.12"
+version = "0.4.0"
 description = ""
 optional = false
 python-versions = ">=3.14"
 groups = ["main"]
-files = [
-    {file = "potehinsonnet-0.1.12-py3-none-any.whl", hash = "sha256:b3b674367dabdc67453388356c622c52b7b814eb2127dae75287c6f76cf2cb62"},
-]
+files = []
+develop = false
 
 [package.dependencies]
 nats-py = ">=2.15.0,<3.0.0"
 pydantic = ">=2.13.5,<3.0.0"
 
 [package.source]
-type = "file"
-url = "../poteninson_net/dist/potehinsonnet-0.1.12-py3-none-any.whl"
+type = "git"
+url = "https://github.com/uto4e4ka/poteninson_net.git"
+reference = "dev"
+resolved_reference = "1793a4e15f38e624306109b3d1864f938dbf1721"
 
 [[package]]
 name = "pydantic"
@@ -621,4 +593,4 @@ zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "f3c7bf7fdf73e815012f3e8123e192a63681cd325dff3e3b91c8bf52c0f1b244"
+content-hash = "a3c7ea5f18cc1742f3fdb6a3b23e0f183d0de0313abfe95da96bcb40c62db530"

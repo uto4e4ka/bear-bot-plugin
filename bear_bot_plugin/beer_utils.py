@@ -1,19 +1,16 @@
+import asyncio
+from pathlib import Path
 
-from datetime import time
 import requests
 from bs4 import BeautifulSoup
-import os
-
-
-
-
-
 
 URL = "https://sampivo-opt.ru/tovar/pivo-samarskoe-keg-tsena-za-1-litr/"
-PRICE_FILE = "prev_price.txt"
+# Рядом с кодом, а не в каталоге запуска
+PRICE_FILE = Path(__file__).parent / "prev_price.txt"
+
 
 # ======== Парсинг цены пива ========
-def get_beer_price():
+def get_beer_price() -> float | None:
     try:
         response = requests.get(URL, timeout=10)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -28,38 +25,44 @@ def get_beer_price():
     except Exception:
         return None
 
+
+async def fetch_beer_price() -> float | None:
+    """То же, что get_beer_price, но не блокирует event loop плагина на время запроса."""
+    return await asyncio.to_thread(get_beer_price)
+
+
 # ======== Работа с файлом предыдущей цены ========
-def read_prev_price():
-    if os.path.exists(PRICE_FILE):
+def read_prev_price() -> float | None:
+    if PRICE_FILE.exists():
         try:
-            with open(PRICE_FILE, "r") as f:
-                return float(f.read().strip())
+            return float(PRICE_FILE.read_text().strip())
         except Exception:
             return None
     return None
 
-def write_prev_price(price):
-    with open(PRICE_FILE, "w") as f:
-        f.write(str(price))
+
+def write_prev_price(price: float) -> None:
+    PRICE_FILE.write_text(str(price))
+
 
 # ======== Формирование “биржевого” сообщения ========
-def build_price_message():
-    current_price = get_beer_price()
-    if current_price is None:
+def price_arrow(current: float, prev: float | None) -> str:
+    if prev is None or current == prev:
+        return "➡️"
+    return "📈" if current > prev else "📉"
+
+
+def format_price_message(current: float | None, prev: float | None) -> str:
+    if current is None:
         return "Не удалось получить цену пива 😢"
+    return f"**🍺 Текущее пиво:** Жигулевское\n**Цена за 1 литр:** {current:.2f} руб. {price_arrow(current, prev)}"
+
+
+async def build_price_message() -> str:
+    current_price = await fetch_beer_price()
+    if current_price is None:
+        return format_price_message(None, None)
 
     prev_price = read_prev_price()
     write_prev_price(current_price)  # обновляем файл
-
-    # Определяем стрелку
-    if prev_price is None:
-        arrow = "➡️"  # первый раз
-    elif current_price > prev_price:
-        arrow = "📈"
-    elif current_price < prev_price:
-        arrow = "📉"
-    else:
-        arrow = "➡️"
-
-    return f"**🍺 Текущее пиво:** Жигулевское\n**Цена за 1 литр:** {current_price:.2f} руб. {arrow}"
-
+    return format_price_message(current_price, prev_price)

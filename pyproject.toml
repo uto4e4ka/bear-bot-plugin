@@ -8,11 +8,11 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "potehinsonnet @ file:///C:/Users/alezh/PycharmProjects/Discord_Bots/poteninson_net/dist/potehinsonnet-0.1.12-py3-none-any.whl",
+    "potehinsonnet @ git+https://github.com/uto4e4ka/poteninson_net.git@dev",
     "requests (>=2.34.2,<3.0.0)",
-    "bs4 (>=0.0.2,<0.0.3)",
+    "beautifulsoup4 (>=4.13.0,<5.0.0)",
     "apscheduler (>=3.11.3,<4.0.0)",
-    "dotenv (>=0.9.9,<0.10.0)"
+    "python-dotenv (>=1.2.3,<2.0.0)"
 ]
 
 
