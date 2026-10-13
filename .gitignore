@@ -1,3 +1,6 @@
 
 # Настройки рассылки, меняются из веб-панели
 bear_bot_plugin/settings.json
+
+# Запланированные события
+bear_bot_plugin/events.json
