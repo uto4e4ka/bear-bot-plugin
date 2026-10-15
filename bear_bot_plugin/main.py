@@ -1,7 +1,5 @@
-import os
-
 from dotenv import load_dotenv
-from potehinsonnet import Plugin
+from potehinsonnet import Plugin, PluginContext
 from potehinsonnet.net_models.discord_models import Command, CommandArgument, ExecutedCommand, \
     ExecutedCommandResponse
 from potehinsonnet.net_models.panel_ui import (
@@ -19,20 +17,11 @@ from potehinsonnet.net_models.panel_ui import (
     TextField,
     Toggle,
 )
-from potehinsonnet.net_models.system_models import Service
 
 from bear_bot_plugin import beer_utils
-from bear_bot_plugin.config import PLUGIN_NAME, BeerSettings
+from bear_bot_plugin.config import BeerSettings, data_file, use_data_dir
 from bear_bot_plugin.core import TIMEZONE, BeerService
 from bear_bot_plugin.events import EventService
-
-SERVICE = Service(
-    name=PLUGIN_NAME,
-    label="🍺 Пивная биржа",
-    description="Цена пива, ежедневная рассылка и события с обратным отсчётом",
-    author="Uto4ka404",
-    version="0.2.0",
-)
 
 
 def schedule_text(settings: BeerSettings) -> str:
@@ -42,11 +31,14 @@ def schedule_text(settings: BeerSettings) -> str:
     return when if settings.channel_id else f"{when}, но канал не задан — не отправляется"
 
 
-def create_plugin(nats_url: str = "nats://localhost:4222") -> Plugin:
-    plugin = Plugin(SERVICE, nats_url=nats_url)
+def create_plugin(ctx: PluginContext) -> Plugin:
+    """Точка входа (plugin.toml → runtime.entry). Запуск: python -m potehinsonnet.run ."""
+    load_dotenv()   # CHANNEL_ID для первого запуска — из .env, как раньше
+    use_data_dir(ctx.data_dir)
+    plugin = Plugin.from_context(ctx)
     beer = BeerService(plugin.discord, BeerSettings.load())
     plugin.add_lifespan(beer)
-    events = EventService(plugin.discord, TIMEZONE)
+    events = EventService(plugin.discord, TIMEZONE, file=data_file("events.json"))
     plugin.add_lifespan(events)
 
     @plugin.command(Command(name="beer", description="Узнать цену на пиво", tag="beer"))
@@ -217,12 +209,3 @@ def create_plugin(nats_url: str = "nats://localhost:4222") -> Plugin:
         return f"«{event.name}» отменено"
 
     return plugin
-
-
-def run() -> None:
-    load_dotenv()
-    create_plugin(os.getenv("NATS_URL", "nats://localhost:4222")).run()
-
-
-if __name__ == "__main__":
-    run()

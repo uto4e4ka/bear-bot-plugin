@@ -13,9 +13,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from potehinsonnet.discord_provider import DiscordProvider
 from potehinsonnet.net_models.discord_models import NatsMessage
 
-from bear_bot_plugin.config import PLUGIN_NAME
+from bear_bot_plugin.config import PLUGIN_NAME, data_file
 
-EVENTS_FILE = Path(__file__).parent / "events.json"
 # Когда напомнить до начала; 0 — в момент начала
 MILESTONES = [timedelta(days=7), timedelta(days=3), timedelta(days=1), timedelta(hours=1), timedelta(0)]
 
@@ -89,7 +88,7 @@ class EventService:
     """Хранит события и напоминания в планировщике. Запускается вместе с плагином (lifespan)."""
     discord: DiscordProvider
     tz: object
-    file: Path = EVENTS_FILE
+    file: Path = field(default_factory=lambda: data_file("events.json"))   # в папке данных плагина
     scheduler: AsyncIOScheduler = None
     events: list[Event] = field(default_factory=list)
 

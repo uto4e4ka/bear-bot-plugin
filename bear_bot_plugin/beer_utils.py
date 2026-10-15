@@ -1,12 +1,12 @@
 import asyncio
-from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 
+from bear_bot_plugin.config import data_file
+
 URL = "https://sampivo-opt.ru/tovar/pivo-samarskoe-keg-tsena-za-1-litr/"
-# Рядом с кодом, а не в каталоге запуска
-PRICE_FILE = Path(__file__).parent / "prev_price.txt"
+PRICE_FILE = "prev_price.txt"   # в папке данных плагина
 
 
 # ======== Парсинг цены пива ========
@@ -33,16 +33,17 @@ async def fetch_beer_price() -> float | None:
 
 # ======== Работа с файлом предыдущей цены ========
 def read_prev_price() -> float | None:
-    if PRICE_FILE.exists():
+    path = data_file(PRICE_FILE)
+    if path.exists():
         try:
-            return float(PRICE_FILE.read_text().strip())
+            return float(path.read_text().strip())
         except Exception:
             return None
     return None
 
 
 def write_prev_price(price: float) -> None:
-    PRICE_FILE.write_text(str(price))
+    data_file(PRICE_FILE).write_text(str(price))
 
 
 # ======== Формирование “биржевого” сообщения ========

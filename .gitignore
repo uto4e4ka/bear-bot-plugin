@@ -4,3 +4,11 @@ bear_bot_plugin/settings.json
 
 # Запланированные события
 bear_bot_plugin/events.json
+
+# Данные плагина (у хоста — своя папка) и настройки при разработке
+data/
+bear_bot_plugin/data/
+settings.json
+
+# Прошлая цена — данные, живут в data/
+bear_bot_plugin/prev_price.txt

@@ -1,6 +1,6 @@
 [project]
 name = "bear_bot_plugin"
-version = "0.1.0"
+version = "0.3.0"
 description = ""
 authors = [
     {name = "Uto4ka",email = "alezhestkov@gmail.com"}
@@ -15,6 +15,8 @@ dependencies = [
     "python-dotenv (>=1.2.3,<2.0.0)"
 ]
 
+[tool.poetry]
+packages = [{ include = "bear_bot_plugin" }]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
