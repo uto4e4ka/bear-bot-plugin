@@ -2,13 +2,13 @@
 name = "bear_bot_plugin"
 label = "🍺 Пивная биржа"
 description = "Цена пива, ежедневная рассылка и события с обратным отсчётом"
-version = "0.3.1"
+version = "0.3.2"
 author = "Uto4ka404"
 
 [runtime]
 entry = "bear_bot_plugin.main:create_plugin"
 python = ">=3.14"
-potehinsonnet = ">=0.10,<0.12"
+potehinsonnet = ">=0.10,<0.13"
 
 [permissions]
 # Ежедневная цена и напоминания о событиях — сообщениями в канал
