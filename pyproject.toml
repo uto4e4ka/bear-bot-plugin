@@ -1,6 +1,6 @@
 [project]
 name = "bear_bot_plugin"
-version = "0.3.0"
+version = "0.3.3"
 description = ""
 authors = [
     {name = "Uto4ka",email = "alezhestkov@gmail.com"}

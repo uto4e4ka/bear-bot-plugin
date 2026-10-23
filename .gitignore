@@ -12,3 +12,6 @@ settings.json
 
 # Прошлая цена — данные, живут в data/
 bear_bot_plugin/prev_price.txt
+
+# Собранные архивы (make_zip.py)
+dist/
